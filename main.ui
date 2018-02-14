@@ -109,7 +109,7 @@
     <item>
      <widget class="QGroupBox" name="groupBox_2">
       <property name="title">
-       <string>Step 3: folder path of FF777</string>
+       <string>Step 3: folder &quot;objects&quot; path of FF777</string>
       </property>
       <widget class="QWidget" name="horizontalLayoutWidget_2">
        <property name="geometry">

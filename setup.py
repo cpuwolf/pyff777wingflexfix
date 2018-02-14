@@ -9,7 +9,7 @@ Created on Thu March 16 2017
 import sys  
 from cx_Freeze import setup, Executable  
 
-build_exe_options = {"packages": ["os"], "excludes": [], "include_files": ["main.ui"]}
+build_exe_options = {"packages": ["os"], "excludes": [], "include_files": ["main.ui","ff777wingflex.cfg"]}
 base = None  
 if sys.platform == "win32":  
     base = "Win32GUI"  

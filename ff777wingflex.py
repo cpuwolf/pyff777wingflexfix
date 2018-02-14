@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 __author__ = "Wei Shuai"
 __copyright__ = "Copyright 2018 Wei Shuai <cpuwolf@gmail.com>"
-__version__ = "1.0.0"
+__version__ = "1.0"
 __email__ = "cpuwolf@gmail.com"
 """
 Created on Feb 2018
@@ -25,7 +25,7 @@ import sys
 from PyQt4 import QtCore, QtGui, uic
 from PyQt4.QtCore import QThread
 from PyQt4.QtGui import QFileDialog
-from xml.etree.ElementTree import parse, SubElement 
+import ConfigParser
 
 def findwholeline(data,keyword,startidx):
     idx=data[startidx:].find(keyword)
@@ -147,6 +147,20 @@ def findxpobj(root,cklist):
 '''chklist=[["WingPress","hello"],["EngRPress","hello"]]'''
 #findxpobj("C:\\Program Files\\X-Plane 11\\Aircraft\\Extra Aircraft\\Boeing777-Extended\\objects",chklist)
 
+def myreadconfig():
+    config = ConfigParser.RawConfigParser()
+    config.read('ff777wingflex.cfg')
+    return [config.get('basic', 'inputfile'),config.get('basic', 'outputfolder')]
+
+        
+def mywriteconfig(ifile,ofolder):
+    config = ConfigParser.RawConfigParser()
+    config.add_section('basic')
+    config.set('basic', 'inputfile', ifile)
+    config.set('basic', 'outputfolder', ofolder)
+    with open('ff777wingflex.cfg', 'wb') as configfile:
+        config.write(configfile)
+
 class MyThread(QThread):
     set_text = QtCore.pyqtSignal('QString')
     def __init__(self):
@@ -174,24 +188,33 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.pushButtonfix.clicked.connect(self.GoCrazy)
         self.pushButtonValue.clicked.connect(self.getfile)
         self.pushButton777.clicked.connect(self.getfolder)
+        a=myreadconfig()
+        self.lineEditvalue.setText(a[0])
+        self.lineEdit777.setText(a[1])
     
     def GoCrazy(self):
         self.myThread = MyThread()
         self.myThread.text_valuepath = self.lineEditvalue.text()
         self.myThread.text_folderpath = self.lineEdit777.text()
         self.myThread.set_text.connect(self.on_set_text)
+        
+        self.pushButtonfix.setEnabled(False)
         self.myThread.start()
 
     def on_set_text(self, generated_str):
         print("Generated string : ", generated_str)
         self.label_st.setText(generated_str)
     
+    def upconfig(self):
+        mywriteconfig(self.lineEditvalue.text(), self.lineEdit777.text())
+        
     def getfile(self):
-        self.lineEditvalue.setText(QFileDialog.getOpenFileName(self, 'Open file', 
-         'c:\\',"text files (*.txt *.*)"))
+        self.lineEditvalue.setText(QFileDialog.getOpenFileName(self, 'Open file', 'c:\\',"text files (*.txt *.*)"))
+        self.upconfig()
     
     def getfolder(self):
         self.lineEdit777.setText(QFileDialog.getExistingDirectory(self, 'Select FF777 directory'))
+        self.upconfig()
 
         
 if __name__ == "__main__":
