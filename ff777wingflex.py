@@ -189,7 +189,7 @@ class MyThread(QThread):
         if findxpobj(os.path.abspath(self.text_folderpath),chklist):
             self.set_text.emit("<h1>finished!!</h1>")
         else:
-            self.set_text.emit("<h1>Don't run mutiple times</h1>")
+            self.set_text.emit("<h1>Don't run multiple times</h1>")
 
 qtCreatorFile = "main.ui" # Enter file here.
 
