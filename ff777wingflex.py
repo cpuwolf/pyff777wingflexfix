@@ -70,10 +70,21 @@ def findsection(data,keywordstart,keywordend):
             break
     return result   
 
+def checkxpobj(data):
+    a=findwholeline(data,"wing_tip_deflection_deg",0)
+    if a[0] ==-1 and a[1] == -1:
+        return True
+    return False;
+        
+
 def processxpobj(fileobj,cklist):
     listmerge = []
     with open(fileobj,"r") as f:
         data = f.read()
+        
+        if not checkxpobj(data):
+            return False
+
         for list in cklist:
             kword = list[0]
             sections=findsection(data,kword,"ANIM_rotate_end")
@@ -103,6 +114,7 @@ def processxpobj(fileobj,cklist):
                 
             with open(fileobj,"w") as f:
                 f.write(newdata)
+    return True
 
 def loadinputfile(filetxt):
     cookies = []
@@ -139,7 +151,9 @@ def findxpobj(root,cklist):
         for file in files:
             if file.endswith(".obj"):            # this line is new
                 print os.path.join(path, file)
-                processxpobj(os.path.join(path, file),cklist)
+                if not processxpobj(os.path.join(path, file),cklist):
+                    return False
+    return True
 
 
 
@@ -172,9 +186,10 @@ class MyThread(QThread):
     def run(self):
         self.set_text.emit("<h1>please wait...</h1>")
         chklist=loadinputfile(self.text_valuepath)
-        findxpobj(os.path.abspath(self.text_folderpath),chklist)
-        self.set_text.emit("<h1>finished!!</h1>")
-
+        if findxpobj(os.path.abspath(self.text_folderpath),chklist):
+            self.set_text.emit("<h1>finished!!</h1>")
+        else:
+            self.set_text.emit("<h1>Don't run mutiple times</h1>")
 
 qtCreatorFile = "main.ui" # Enter file here.
 
