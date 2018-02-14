@@ -170,7 +170,7 @@ class MyThread(QThread):
     def __del__(self):
         self.wait()
     def run(self):
-        self.set_text.emit(self.text_valuepath)
+        self.set_text.emit("<h1>please wait...</h1>")
         chklist=loadinputfile(self.text_valuepath)
         findxpobj(os.path.abspath(self.text_folderpath),chklist)
         self.set_text.emit("<h1>finished!!</h1>")
@@ -202,7 +202,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.myThread.start()
 
     def on_set_text(self, generated_str):
-        print("Generated string : ", generated_str)
+        print("on_set_text:", generated_str)
         self.label_st.setText(generated_str)
     
     def upconfig(self):

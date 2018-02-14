@@ -18,4 +18,4 @@ setup(
         version = "1.0",  
         description = "a script to fix FF777 wingflex animation",  
 		options = {"build_exe": build_exe_options}, 
-        executables = [Executable("ff777wingflex.py", base = base)]) 
+        executables = [Executable("ff777wingflex.py")]) 
