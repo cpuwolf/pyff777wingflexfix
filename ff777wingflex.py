@@ -79,6 +79,7 @@ def checkxpobj(data):
 
 def processxpobj(fileobj,cklist):
     listmerge = []
+    
     with open(fileobj,"r") as f:
         data = f.read()
         
@@ -147,13 +148,16 @@ def loadinputfile(filetxt):
     return wewant
     
 def findxpobj(root,cklist):
+    written = 0
     for path, dirs, files in os.walk(root):
         for file in files:
             if file.endswith(".obj"):            # this line is new
                 print os.path.join(path, file)
-                if not processxpobj(os.path.join(path, file),cklist):
-                    return False
-    return True
+                if processxpobj(os.path.join(path, file),cklist):
+                    written += 1
+                else:
+                    return -1;
+    return written
 
 
 
@@ -189,8 +193,11 @@ class MyThread(QThread):
         if len(chklist) <= 0:
             self.set_text.emit("<h1>input file error</h1>")
             return
-        if findxpobj(os.path.abspath(self.text_folderpath),chklist):
-            self.set_text.emit("<h1>finished!!</h1>")
+        ret = findxpobj(os.path.abspath(self.text_folderpath),chklist)
+        if ret > 0:
+            self.set_text.emit("<h1>finished!!<br>"+str(ret)+" files are changed</h1>")
+        elif ret == 0:
+            self.set_text.emit("<h1>nothing is changed</h1>")
         else:
             self.set_text.emit("<h1>Don't run multiple times</h1>")
 
@@ -220,7 +227,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.myThread.start()
 
     def on_set_text(self, generated_str):
-        print("on_set_text:", generated_str)
+        #print("on_set_text:", generated_str)
         self.label_st.setText(generated_str)
     
     def upconfig(self):
