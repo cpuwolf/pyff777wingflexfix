@@ -10,7 +10,7 @@ import py2exe
 import sys  
 includes = ["encodings", "encodings.*"]    
 sys.argv.append("py2exe")  
-options = {"py2exe":   { "bundle_files": 1 }    
+options = {"py2exe":   { "bundle_files": 3,"includes":["sip"]}   
                 }   
 setup(
     version = "1.0.0",
@@ -18,4 +18,4 @@ setup(
     name = "FF777 wingflex patch tool",
     options = options,  
     zipfile=None,   
-    console = [{"script":'ff777wingflex.py'}])
+    windows = [{"script":'ff777wingflex.py'}])

@@ -21,6 +21,11 @@ this scripts targets to process <FF777 Flex Values.txt>, then apply all values i
 
 import os
 import shutil
+import sys
+from PyQt4 import QtCore, QtGui, uic
+from PyQt4.QtCore import QThread
+from PyQt4.QtGui import QFileDialog
+from xml.etree.ElementTree import parse, SubElement 
 
 def findwholeline(data,keyword,startidx):
     idx=data[startidx:].find(keyword)
@@ -82,16 +87,16 @@ def processxpobj(fileobj,cklist):
             newdata = data[:wewant[0][0]]
             while i < lenwewant:
                 j = 0
-                for chk in chklist:
+                for chk in cklist:
                     fdidx=wewant[i][2].find(chk[0])
                     if fdidx != -1:
                         break;
                     j+=1
                 
                 if i + 1 < lenwewant:
-                    newdata += chklist[j][1]+data[wewant[i][1]:wewant[i+1][0]]
+                    newdata += cklist[j][1]+data[wewant[i][1]:wewant[i+1][0]]
                 else:
-                    newdata += chklist[j][1]+data[wewant[i][1]:]
+                    newdata += cklist[j][1]+data[wewant[i][1]:]
                 i += 1
 
             shutil.copy(fileobj, fileobj+".orig.obj")
@@ -102,29 +107,32 @@ def processxpobj(fileobj,cklist):
 def loadinputfile(filetxt):
     cookies = []
     wewant = []
-    with open(filetxt,"r") as f:
-        data = f.read()
-        sections=findsection(data,"ANIM_rotate_begin ","ANIM_rotate_end")
-        index=1
-        while index < len(sections):
-            if sections[index][0]-sections[index-1][1] == 1:
-                cookies.append([sections[index-1][0],sections[index][1],sections[index-1][2]])
-                tmpidx=index
-                tmpidx+=2
-                if tmpidx < len(sections):
-                    index+=2
+    try:
+        with open(filetxt,"r") as f:
+            data = f.read()
+            sections=findsection(data,"ANIM_rotate_begin ","ANIM_rotate_end")
+            index=1
+            while index < len(sections):
+                if sections[index][0]-sections[index-1][1] == 1:
+                    cookies.append([sections[index-1][0],sections[index][1],sections[index-1][2]])
+                    tmpidx=index
+                    tmpidx+=2
+                    if tmpidx < len(sections):
+                        index+=2
+                    else:
+                        index+=1
                 else:
+                    cookies.append(sections[index])
                     index+=1
-            else:
-                cookies.append(sections[index])
-                index+=1
-        #print cookies
-        for cookie in cookies:
-            sp=cookie[2].split(' ')
-            wewant.append([sp[-1],data[cookie[0]:cookie[1]]])
-            #wewant.append([cookie[2],data[cookie[0]:cookie[1]]])
-        print wewant, len(wewant)
+            #print cookies
+            for cookie in cookies:
+                sp=cookie[2].split(' ')
+                wewant.append([sp[-1],data[cookie[0]:cookie[1]]])
+                #wewant.append([cookie[2],data[cookie[0]:cookie[1]]])
+            print wewant, len(wewant)
+    except IOError:
         return wewant
+    return wewant
     
 def findxpobj(root,cklist):
     for path, dirs, files in os.walk(root):
@@ -135,7 +143,60 @@ def findxpobj(root,cklist):
 
 
 
-chklist=loadinputfile("F:\\works\\GitHub\\ff777wingflex\\FF777 Flex Values.txt")
+#chklist=loadinputfile("F:\\works\\GitHub\\ff777wingflex\\FF777 Flex Values.txt")
 '''chklist=[["WingPress","hello"],["EngRPress","hello"]]'''
-findxpobj("C:\\Program Files\\X-Plane 11\\Aircraft\\Extra Aircraft\\Boeing777-Extended\\objects",chklist)
+#findxpobj("C:\\Program Files\\X-Plane 11\\Aircraft\\Extra Aircraft\\Boeing777-Extended\\objects",chklist)
+
+class MyThread(QThread):
+    set_text = QtCore.pyqtSignal('QString')
+    def __init__(self):
+        QThread.__init__(self)
+        self.text_valuepath = None
+        self.text_folderpath = None
+    def __del__(self):
+        self.wait()
+    def run(self):
+        self.set_text.emit(self.text_valuepath)
+        chklist=loadinputfile(self.text_valuepath)
+        findxpobj(os.path.abspath(self.text_folderpath),chklist)
+        self.set_text.emit("<h1>finished!!</h1>")
+
+
+qtCreatorFile = "main.ui" # Enter file here.
+
+Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
+
+class MyApp(QtGui.QMainWindow, Ui_MainWindow):
+    def __init__(self):
+        QtGui.QMainWindow.__init__(self)
+        Ui_MainWindow.__init__(self)
+        self.setupUi(self)
+        self.pushButtonfix.clicked.connect(self.GoCrazy)
+        self.pushButtonValue.clicked.connect(self.getfile)
+        self.pushButton777.clicked.connect(self.getfolder)
+    
+    def GoCrazy(self):
+        self.myThread = MyThread()
+        self.myThread.text_valuepath = self.lineEditvalue.text()
+        self.myThread.text_folderpath = self.lineEdit777.text()
+        self.myThread.set_text.connect(self.on_set_text)
+        self.myThread.start()
+
+    def on_set_text(self, generated_str):
+        print("Generated string : ", generated_str)
+        self.label_st.setText(generated_str)
+    
+    def getfile(self):
+        self.lineEditvalue.setText(QFileDialog.getOpenFileName(self, 'Open file', 
+         'c:\\',"text files (*.txt *.*)"))
+    
+    def getfolder(self):
+        self.lineEdit777.setText(QFileDialog.getExistingDirectory(self, 'Select FF777 directory'))
+
+        
+if __name__ == "__main__":
+    app = QtGui.QApplication(sys.argv)
+    window = MyApp()
+    window.show()
+    app.exec_()
 print "all done!"
