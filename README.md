@@ -16,7 +16,7 @@ Thanks to Dusty926 who fine tuned FF777 wing flex values
 
 # after wingflex fix screenshot
 
-![toga](../../tree/master/img/zbmate_com_obs_addon01 2018-02-14.jpg)
+![toga](https://github.com/cpuwolf/pyff777wingflexfix/blob/master/img/zbmate_com_obs_addon01%202018-02-14.jpg)
 
 ![toga](../master/img/zbmate_com_obs_addon02 2018-02-14.jpg)
 
