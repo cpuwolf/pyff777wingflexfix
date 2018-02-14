@@ -1,9 +1,16 @@
+# FF777WingflexFix?
+
+FF777WingflexFix is just a batch tool applying hundreds of changes provided by Dusty926
+
 # FF777WingflexFix Overview
 
 FlightFactor 777 X-Plane 11
 Wing Flex Animation patching tool
+
 designed by 2018 Wei Shuai <cpuwolf@gmail.com>
+
 website http://x-plane.vip/
+
 live stream channel http://douyu.com/cpuwolf/
 
 # Thanks to Dusty926
