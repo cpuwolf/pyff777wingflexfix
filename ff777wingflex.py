@@ -186,6 +186,9 @@ class MyThread(QThread):
     def run(self):
         self.set_text.emit("<h1>please wait...</h1>")
         chklist=loadinputfile(self.text_valuepath)
+        if len(chklist) <= 0:
+            self.set_text.emit("<h1>input file error</h1>")
+            return
         if findxpobj(os.path.abspath(self.text_folderpath),chklist):
             self.set_text.emit("<h1>finished!!</h1>")
         else:
