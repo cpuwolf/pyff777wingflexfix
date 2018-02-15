@@ -181,6 +181,7 @@ def mywriteconfig(ifile,ofolder):
 
 class MyThread(QThread):
     set_text = QtCore.pyqtSignal('QString')
+    set_done = QtCore.pyqtSignal()
     def __init__(self):
         QThread.__init__(self)
         self.text_valuepath = None
@@ -192,6 +193,7 @@ class MyThread(QThread):
         chklist=loadinputfile(self.text_valuepath)
         if len(chklist) <= 0:
             self.set_text.emit("<h1>input file error</h1>")
+            self.set_done.emit()
             return
         ret = findxpobj(os.path.abspath(self.text_folderpath),chklist)
         if ret > 0:
@@ -200,6 +202,7 @@ class MyThread(QThread):
             self.set_text.emit("<h1>nothing is changed</h1>")
         else:
             self.set_text.emit("<h1>Don't run multiple times</h1>")
+        self.set_done.emit()
 
 qtCreatorFile = "main.ui" # Enter file here.
 
@@ -222,9 +225,12 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.myThread.text_valuepath = self.lineEditvalue.text()
         self.myThread.text_folderpath = self.lineEdit777.text()
         self.myThread.set_text.connect(self.on_set_text)
-        
+        self.myThread.set_done.connect(self.on_set_done)
         self.pushButtonfix.setEnabled(False)
         self.myThread.start()
+
+    def on_set_done(self):
+        self.pushButtonfix.setEnabled(True)
 
     def on_set_text(self, generated_str):
         #print("on_set_text:", generated_str)
