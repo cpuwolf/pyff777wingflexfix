@@ -234,11 +234,11 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         mywriteconfig(self.lineEditvalue.text(), self.lineEdit777.text())
         
     def getfile(self):
-        self.lineEditvalue.setText(QFileDialog.getOpenFileName(self, 'Open file', 'c:\\',"text files (*.txt *.*)"))
+        self.lineEditvalue.setText(QFileDialog.getOpenFileName(self, 'Open file', self.lineEditvalue.text(),"text files (*.txt *.*)"))
         self.upconfig()
     
     def getfolder(self):
-        self.lineEdit777.setText(QFileDialog.getExistingDirectory(self, 'Select FF777 directory'))
+        self.lineEdit777.setText(QFileDialog.getExistingDirectory(self, 'Select FF777 directory',self.lineEdit777.text()))
         self.upconfig()
 
         
