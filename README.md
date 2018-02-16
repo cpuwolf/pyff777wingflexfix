@@ -30,3 +30,17 @@ Thanks to Dusty926 who fine tuned FF777 wing flex values
 ![toga](https://github.com/cpuwolf/pyff777wingflexfix/blob/master/img/zbmate_com_obs_addon03%202018-02-14.jpg)
 
 ![toga](https://github.com/cpuwolf/pyff777wingflexfix/blob/master/img/zbmate_com_obs_addon04%202018-02-14.jpg)
+
+# Development
+
+## MAC OSX freeze
+
+build/install.mac.sh
+
+## Windows Execution
+
+build/exec.cmd
+
+## Windows freeze
+
+build/install.cmd

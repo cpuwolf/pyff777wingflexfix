@@ -160,6 +160,10 @@ def findxpobj(root,cklist):
     return written
 
 
+def resource_path(relative_path): # needed for bundling                                                                                                                            
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
 #chklist=loadinputfile("F:\\works\\GitHub\\ff777wingflex\\FF777 Flex Values.txt")
 '''chklist=[["WingPress","hello"],["EngRPress","hello"]]'''
@@ -167,7 +171,7 @@ def findxpobj(root,cklist):
 
 def myreadconfig():
     config = ConfigParser.RawConfigParser()
-    config.read('ff777wingflex.cfg')
+    config.read(resource_path('ff777wingflex.cfg'))
     return [config.get('basic', 'inputfile'),config.get('basic', 'outputfolder')]
 
         
@@ -204,9 +208,10 @@ class MyThread(QThread):
             self.set_text.emit("<h1>Don't run multiple times</h1>")
         self.set_done.emit()
 
+
 qtCreatorFile = "main.ui" # Enter file here.
 
-Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
+Ui_MainWindow, QtBaseClass = uic.loadUiType(resource_path(qtCreatorFile))
 
 class MyApp(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -247,7 +252,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.lineEdit777.setText(QFileDialog.getExistingDirectory(self, 'Select FF777 directory',self.lineEdit777.text()))
         self.upconfig()
 
-        
+
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     window = MyApp()
