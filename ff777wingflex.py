@@ -27,6 +27,7 @@ from PyQt4.QtCore import QThread
 from PyQt4.QtGui import QFileDialog
 import ConfigParser
 import logging
+import tempfile
 
 
 def findwholeline(data,keyword,startidx):
@@ -202,6 +203,7 @@ class MyThread(QThread):
             self.set_text.emit("<h1>input file error</h1>")
             self.set_done.emit()
             return
+        self.set_text.emit("<h1>start to process...</h1>")
         ret = findxpobj(os.path.abspath(self.text_folderpath),chklist)
         if ret > 0:
             self.set_text.emit("<h1>finished!!<br>"+str(ret)+" files are changed</h1>")
@@ -211,10 +213,11 @@ class MyThread(QThread):
             self.set_text.emit("<h1>Don't run multiple times</h1>")
         self.set_done.emit()
 
-debug_logger = logging.getLogger('wingflex')
-debug_logger.write = debug_logger.debug    #consider all prints as debug information
-debug_logger.flush = lambda: None   # this may be called when printing
-sys.stdout = debug_logger
+#debug_logger = logging.getLogger('wingflex')
+#debug_logger.write = debug_logger.debug    #consider all prints as debug information
+#debug_logger.flush = lambda: None   # this may be called when printing
+#sys.stdout = debug_logger
+sys.stdout = tempfile.TemporaryFile()
 
 qtCreatorFile = "main.ui" # Enter file here.
 
@@ -236,7 +239,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         print "start"
         self.myThread = MyThread()
         self.myThread.text_valuepath = self.lineEditvalue.text()
-        self.myThread.text_folderpath = self.lineEdit777.text()
+        self.myThread.text_folderpath = unicode(self.lineEdit777.text())
         self.myThread.set_text.connect(self.on_set_text)
         self.myThread.set_done.connect(self.on_set_done)
         self.pushButtonfix.setEnabled(False)
