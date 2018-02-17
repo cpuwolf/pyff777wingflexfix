@@ -26,6 +26,8 @@ from PyQt4 import QtCore, QtGui, uic
 from PyQt4.QtCore import QThread
 from PyQt4.QtGui import QFileDialog
 import ConfigParser
+import logging
+
 
 def findwholeline(data,keyword,startidx):
     idx=data[startidx:].find(keyword)
@@ -160,6 +162,7 @@ def findxpobj(root,cklist):
     return written
 
 
+
 def resource_path(relative_path): # needed for bundling                                                                                                                            
     """ Get absolute path to resource, works for dev and for PyInstaller """
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
@@ -208,6 +211,10 @@ class MyThread(QThread):
             self.set_text.emit("<h1>Don't run multiple times</h1>")
         self.set_done.emit()
 
+debug_logger = logging.getLogger('wingflex')
+debug_logger.write = debug_logger.debug    #consider all prints as debug information
+debug_logger.flush = lambda: None   # this may be called when printing
+sys.stdout = debug_logger
 
 qtCreatorFile = "main.ui" # Enter file here.
 
@@ -226,6 +233,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.lineEdit777.setText(a[1])
     
     def GoCrazy(self):
+        print "start"
         self.myThread = MyThread()
         self.myThread.text_valuepath = self.lineEditvalue.text()
         self.myThread.text_folderpath = self.lineEdit777.text()
