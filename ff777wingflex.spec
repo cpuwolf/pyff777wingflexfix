@@ -27,7 +27,7 @@ exe = EXE(pyz,
           strip=False,
           upx=True,
           runtime_tmpdir=None,
-          console=True )
+          console=False , icon='777.ico')
 app = BUNDLE(exe,
              a.datas, 
              name='ff777wingflexfixmac.app',

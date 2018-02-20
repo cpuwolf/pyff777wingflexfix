@@ -6,6 +6,8 @@ cd F:\works\GitHub\pyff777wingflexfix\
 ::bdist_msi
 
 
-python.exe -m PyInstaller  --onefile --clean --noconfirm ff777wingflex.spec
+::python.exe -m PyInstaller  --windowed --icon=777.ico --onefile --clean --noconfirm ff777wingflex.py
+
+python.exe -m PyInstaller  --windowed --onefile --clean --noconfirm ff777wingflex.spec
 
 pause
