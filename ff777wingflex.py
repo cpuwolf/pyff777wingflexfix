@@ -75,7 +75,8 @@ def findsection(data,keywordstart,keywordend):
 
 def checkxpobj(data):
     a=findwholeline(data,"wing_tip_deflection_deg",0)
-    if a[0] ==-1 and a[1] == -1:
+    b=findwholeline(data,"vz_acf_axis",0)
+    if a[0] == -1 and a[1] == -1 and b[0] == -1 and b[1] == -1:
         return True
     return False;
         
