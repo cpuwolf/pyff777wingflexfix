@@ -23,7 +23,7 @@
    <enum>Qt::ClickFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>FF777 Wingflex fix 2.0</string>
+   <string>FF777 Wingflex fix 3.0</string>
   </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
