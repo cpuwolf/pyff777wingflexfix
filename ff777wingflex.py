@@ -20,7 +20,7 @@ this scripts targets to process <FF777 Flex Values.txt>, then apply all values i
 """
 
 import os
-import shutil
+import shutil, errno
 import sys
 from PyQt4 import QtCore, QtGui, uic
 from PyQt4.QtCore import QThread
@@ -163,7 +163,14 @@ def findxpobj(root,cklist):
                     return -1;
     return written
 
-
+def backupfolder(src):
+    try:
+        shutil.copytree(src, src+".flex.old")
+        return 1
+    except OSError as exc:
+        if exc.errno == errno.EEXIST:
+            return 0
+        return -1
 
 def resource_path(relative_path): # needed for bundling                                                                                                                            
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -204,8 +211,18 @@ class MyThread(QThread):
             self.set_text.emit("<h1>input file error</h1>")
             self.set_done.emit()
             return
+        objfolderpath=os.path.abspath(self.text_folderpath)
+        ret=backupfolder(objfolderpath)
+        if ret < 0:
+            self.set_text.emit("<h1>folder backup failed!!</h1>")
+            self.set_done.emit()
+            return
+        elif ret == 0:
+            self.set_text.emit("<h1>you already have a backup folder!!</h1>")
+            self.set_done.emit()
+            return
         self.set_text.emit("<h1>start to process...</h1>")
-        ret = findxpobj(os.path.abspath(self.text_folderpath),chklist)
+        ret = findxpobj(objfolderpath,chklist)
         if ret > 0:
             self.set_text.emit("<h1>finished!!<br>"+str(ret)+" files are changed</h1>")
         elif ret == 0:
