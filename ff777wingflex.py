@@ -218,7 +218,7 @@ class MyThread(QThread):
             self.set_done.emit()
             return
         elif ret == 0:
-            self.set_text.emit("<h1>you already have a backup folder!!</h1>")
+            self.set_text.emit("<h1>Don't run multiple times!</h1>")
             self.set_done.emit()
             return
         self.set_text.emit("<h1>start to process...</h1>")
