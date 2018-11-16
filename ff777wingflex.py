@@ -84,7 +84,7 @@ def checkxpobj(data):
 def processxpobj(fileobj,cklist):
     listmerge = []
     
-    with open(fileobj,"r") as f:
+    with open(fileobj,"rU") as f:
         data = f.read()
         
         if not checkxpobj(data):
@@ -125,7 +125,7 @@ def loadinputfile(filetxt):
     cookies = []
     wewant = []
     try:
-        with open(filetxt,"r") as f:
+        with open(filetxt,"rU") as f:
             data = f.read()
             sections=findsection(data,"ANIM_rotate_begin ","ANIM_rotate_end")
             index=1
@@ -172,7 +172,11 @@ def backupfolder(src):
             return 0
         return -1
 
-def resource_path(relative_path): # needed for bundling                                                                                                                            
+def resource_path(relative_path): # needed for bundling
+    base_path = '.'
+    mpath = os.path.join(base_path, relative_path)
+    if os.path.exists(mpath):
+        return mpath                                                                                                                          
     """ Get absolute path to resource, works for dev and for PyInstaller """
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
