@@ -33,6 +33,8 @@ Thanks to Dusty926 who fine tuned FF777 wing flex values
 
 # Development
 
+pip install appdirs
+
 ## MAC OSX freeze
 
 build/install.mac.sh
