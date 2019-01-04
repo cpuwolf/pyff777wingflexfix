@@ -1,17 +1,34 @@
-# FF777WingflexFix?
+# FF777 Wing Flex Fix tool
+
+before you use this tool, make sure you have already bought Flightfactor 777 
+
+https://flightfactor.aero/boeing-777-screenshots
 
 FF777WingflexFix is just a batch tool applying hundreds of changes provided by Dusty926
 
-# FF777WingflexFix Overview
+# Announcement
 
-FlightFactor 777 X-Plane 11
-Wing Flex Animation patching tool
+this tool doesn't distribute any released files from Flightfactor
 
-designed by 2018 Wei Shuai <cpuwolf@gmail.com>
+it supports Windows, Mac only
 
-website http://x-plane.vip/
 
-live stream channel http://douyu.com/cpuwolf/
+# Installation Guide
+
+there are 5 steps:
+
+1. follow tool's link to download FF777_Flex_Values.txt, which is not part of my release
+
+2. choose and select you downloaded FF777_Flex_Values.txt
+
+3. browse and choose a folder called "objects" in Flightfactor 777
+
+4. press button "fix wingflex"
+
+5. you need planemaker in X-Plane 11 root folder, to modify FF777 .acf file wing flex midpoint value
+
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/1jrAiiAmDxs/0.jpg)](https://youtu.be/1jrAiiAmDxs)
+
 
 # Thanks to Dusty926
 
@@ -46,3 +63,15 @@ build/exec.cmd
 ## Windows freeze
 
 build/install.cmd
+
+# Contact Me
+
+https://www.paypal.me/cpuwolf
+
+https://www.patreon.com/cpuwolf
+
+http://x-plane.vip/
+
+http://douyu.com/cpuwolf/
+
+QQ群：378072629
