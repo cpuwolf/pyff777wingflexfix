@@ -24,7 +24,7 @@ import shutil, errno
 import sys
 from PyQt4 import QtCore, QtGui, uic
 from PyQt4.QtCore import QThread
-from PyQt4.QtGui import QFileDialog
+from PyQt4.QtGui import QFileDialog, QSystemTrayIcon, QIcon, QLabel
 import ConfigParser
 import logging
 import tempfile
@@ -116,7 +116,7 @@ def processxpobj(fileobj,cklist):
                     newdata += cklist[j][1]+data[wewant[i][1]:]
                 i += 1
 
-            shutil.copy(fileobj, fileobj+".orig.obj")
+            #shutil.copy(fileobj, fileobj+".orig.obj")
                 
             with open(fileobj,"w") as f:
                 f.write(newdata)
@@ -173,6 +173,12 @@ def backupfolder(src):
             return 0
         return -1
 
+def backupfolderexisting(src):
+    bkppath = src+".flex.old"
+    if os.path.exists(bkppath) and os.path.isdir(bkppath):
+        return True
+    return False
+
 def user_path(relative_path):
     base_path = user_data_dir("ff777wingflex","cpuwolf")
     if not os.path.exists(base_path):
@@ -181,14 +187,14 @@ def user_path(relative_path):
     return mpath
 
 
-    
-def resource_path(relative_path): # needed for bundling
-    mpath = user_path(relative_path)
-    if os.path.exists(mpath):
-        return mpath
-                                                                                                                     
+def resource_path(relative_path): # needed for bundling                                                                                                                            
     """ Get absolute path to resource, works for dev and for PyInstaller """
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+    
+def resource_opath(relative_path): # needed for bundling                                                                                                                            
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = ''
     return os.path.join(base_path, relative_path)
 
 #chklist=loadinputfile("F:\\works\\GitHub\\ff777wingflex\\FF777 Flex Values.txt")
@@ -197,7 +203,7 @@ def resource_path(relative_path): # needed for bundling
 
 def myreadconfig():
     config = ConfigParser.RawConfigParser()
-    config.read(resource_path('ff777wingflex.cfg'))
+    config.read(user_path('ff777wingflex.cfg'))
     return [config.get('basic', 'inputfile'),config.get('basic', 'outputfolder')]
 
         
@@ -226,21 +232,22 @@ class MyThread(QThread):
             self.set_done.emit()
             return
         objfolderpath=os.path.abspath(self.text_folderpath)
-        ret=backupfolder(objfolderpath)
-        if ret < 0:
-            self.set_text.emit("<h1>folder backup failed!!</h1>")
-            self.set_done.emit()
-            return
-        elif ret == 0:
-            self.set_text.emit("<h1>Don't run multiple times!</h1>")
-            self.set_done.emit()
-            return
-        self.set_text.emit("<h1>start to process...</h1>")
-        ret = findxpobj(objfolderpath,chklist)
-        if ret > 0:
-            self.set_text.emit("<h1>finished!!<br>"+str(ret)+" files are changed</h1>")
-        elif ret == 0:
-            self.set_text.emit("<h1>nothing is changed</h1>")
+        if not backupfolderexisting(objfolderpath):
+            ret=backupfolder(objfolderpath)
+            if ret < 0:
+                self.set_text.emit("<h1>folder backup failed!!</h1>")
+                self.set_done.emit()
+                return
+            elif ret == 0:
+                self.set_text.emit("<h1>Don't run multiple times!</h1>")
+                self.set_done.emit()
+                return
+            self.set_text.emit("<h1>start to process...</h1>")
+            ret = findxpobj(objfolderpath,chklist)
+            if ret > 0:
+                self.set_text.emit("<h1>finished!!<br>"+str(ret)+" files are changed</h1>")
+            elif ret == 0:
+                self.set_text.emit("<h1>nothing is changed</h1>")
         else:
             self.set_text.emit("<h1>Don't run multiple times</h1>")
         self.set_done.emit()
@@ -299,6 +306,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     window = MyApp()
+    window.setWindowIcon(QIcon(resource_path('777.ico')))
     window.show()
     app.exec_()
 print "all done!"

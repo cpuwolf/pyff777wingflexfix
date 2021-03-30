@@ -1,0 +1,159 @@
+Replace every WingPress or EngRPress with these values.
+
+Ordered numerically, with the R and L values sorted underneath their respective WingPress. Make sure that the first anim [WingPress] is replaced by the first block, but make ABSOLUTE sure that the wing_tip_deflection block does NOT replace anything, but instead is added on after the WingPress. Same thing with EngRPress.
+
+SEARCH EACH VALUE MULTIPLE TIMES, THERE ARE LIKELY MANY INSTANCES OF THESE VALUES WITHIN ONE OBJECT FILE. EXHAUST EVERY SINGLE ONE!!!
+
+After that, go into PlaneMaker, open up whatever 777 you modified [or all of them], go to Wings, WingFlex, up Midpoint Dihedral to 1.50. VERY IMPORTANT TOO, MAKES THE WING_TIP_DEFLECTION VALUE WORK!!!
+
+
+WingPress1
+
+ANIM_rotate_begin 0.014300 0.039800 -0.999105 anim/WingPress1R
+ANIM_rotate_key -3.000000 0.500000
+ANIM_rotate_key -1.000000 0.150000
+ANIM_rotate_key 0.000000 0.000000
+ANIM_rotate_key 1.000000 -0.150000
+ANIM_rotate_key 3.000000 -0.500000
+ANIM_rotate_end
+ANIM_rotate_begin 0.014300 0.039800 -0.999105 sim/flightmodel2/wing/wing_tip_deflection_deg[0]
+ANIM_rotate_key -10.000000  1.500000
+ANIM_rotate_key -8.000000  1.500000
+ANIM_rotate_key -5.000000 0.000000
+ANIM_rotate_key -0.500000  -2.000000
+ANIM_rotate_key 5.000000  -3.500000
+ANIM_rotate_key 10.000000  -3.500000
+ANIM_rotate_end
+
+
+ANIM_rotate_begin 0.014301 -0.036601 0.999228 anim/WingPress1L
+ANIM_rotate_key -3.000000 0.500000
+ANIM_rotate_key -1.000000 0.150000
+ANIM_rotate_key 0.000000 0.000000
+ANIM_rotate_key 1.000000 -0.150000
+ANIM_rotate_key 3.000000 -0.500000
+ANIM_rotate_end
+ANIM_rotate_begin 0.014301 -0.036601 0.999228 sim/flightmodel2/wing/wing_tip_deflection_deg[0]
+ANIM_rotate_key -10.000000  1.500000
+ANIM_rotate_key -8.000000  1.500000
+ANIM_rotate_key -5.000000 0.000000
+ANIM_rotate_key -0.500000  -2.000000
+ANIM_rotate_key 5.000000  -3.500000
+ANIM_rotate_key 10.000000  -3.500000
+ANIM_rotate_end
+
+
+WingPress2
+
+ANIM_rotate_begin 0.000000 0.029499 -0.999565 anim/WingPress2R
+ANIM_rotate_key -3.000000 0.650000
+ANIM_rotate_key -1.000000 0.200000
+ANIM_rotate_key 0.000000 0.000000
+ANIM_rotate_key 1.000000 -0.350000
+ANIM_rotate_key 3.000000 -0.750000
+ANIM_rotate_end
+ANIM_rotate_begin 0.000000 0.029499 -0.999565 sim/flightmodel2/wing/wing_tip_deflection_deg[0]
+ANIM_rotate_key -10.000000  1.500000
+ANIM_rotate_key -8.000000  1.500000
+ANIM_rotate_key -5.000000 0.000000
+ANIM_rotate_key -0.500000  -2.100000
+ANIM_rotate_key 5.000000  -3.500000
+ANIM_rotate_key 10.000000  -3.500000
+ANIM_rotate_end
+
+
+ANIM_rotate_begin 0.000000 -0.033201 0.999449 anim/WingPress2L
+ANIM_rotate_key -3.000000 0.650000
+ANIM_rotate_key -1.000000 0.200000
+ANIM_rotate_key 0.000000 0.000000
+ANIM_rotate_key 1.000000 -0.350000
+ANIM_rotate_key 3.000000 -0.750000
+ANIM_rotate_end
+ANIM_rotate_begin 0.000000 -0.033201 0.999449 sim/flightmodel2/wing/wing_tip_deflection_deg[0]
+ANIM_rotate_key -10.000000  1.500000
+ANIM_rotate_key -8.000000  1.500000
+ANIM_rotate_key -5.000000 0.000000
+ANIM_rotate_key -0.500000  -2.100000
+ANIM_rotate_key 5.000000  -3.500000
+ANIM_rotate_key 10.000000  -3.500000
+ANIM_rotate_end
+
+WingPress3
+
+ANIM_rotate_begin 0.000000 -0.001600 -0.999999 anim/WingPress3R
+ANIM_rotate_key -2.000000 0.400000
+ANIM_rotate_key -1.00000 0.200000
+ANIM_rotate_key 0.000000 0.000000
+ANIM_rotate_key 1.00000 -0.200000
+ANIM_rotate_key 2.000000 -0.40000
+ANIM_rotate_end
+ANIM_rotate_begin 0.000000 -0.001600 -0.999999 sim/flightmodel2/wing/wing_tip_deflection_deg[0]
+ANIM_rotate_key -10.000000  1.500000
+ANIM_rotate_key -8.000000  1.500000
+ANIM_rotate_key -5.000000 0.000000
+ANIM_rotate_key -0.500000  -4.500000
+ANIM_rotate_key 5.000000  -5.500000
+ANIM_rotate_key 10.000000  -5.500000
+ANIM_rotate_end
+
+
+ANIM_rotate_begin 0.000000 0.004400 0.999990 anim/WingPress3L
+ANIM_rotate_key -2.000000 0.400000
+ANIM_rotate_key -1.00000 0.200000
+ANIM_rotate_key 0.000000 0.000000
+ANIM_rotate_key 1.00000 -0.200000
+ANIM_rotate_key 2.000000 -0.40000
+ANIM_rotate_end
+ANIM_rotate_begin 0.000000 0.004400 0.999990 sim/flightmodel2/wing/wing_tip_deflection_deg[0]
+ANIM_rotate_key -10.000000  1.500000
+ANIM_rotate_key -8.000000  1.500000
+ANIM_rotate_key -5.000000 0.000000
+ANIM_rotate_key -0.500000  -4.500000
+ANIM_rotate_key 5.000000  -5.500000
+ANIM_rotate_key 10.000000  -5.500000
+ANIM_rotate_end
+
+
+WingPress4
+
+ANIM_rotate_begin 0.000000 0.005300 -0.999986 anim/WingPress4R
+ANIM_rotate_key -2.000000 0.400000
+ANIM_rotate_key -1.00000 0.200000
+ANIM_rotate_key 0.000000 0.000000
+ANIM_rotate_key 1.00000 -0.200000
+ANIM_rotate_key 2.000000 -0.40000
+ANIM_rotate_end
+ANIM_rotate_begin 0.000000 0.005300 -0.999986 sim/flightmodel2/wing/wing_tip_deflection_deg[0]
+ANIM_rotate_key -10.000000  1.500000
+ANIM_rotate_key -8.000000  1.500000
+ANIM_rotate_key -5.000000 0.000000
+ANIM_rotate_key -0.500000  -4.000000
+ANIM_rotate_key 5.000000  -4.500000
+ANIM_rotate_key 10.000000  -4.500000
+ANIM_rotate_end
+
+
+ANIM_rotate_begin 0.000000 -0.011500 0.999934 anim/WingPress4L
+ANIM_rotate_key -2.000000 0.400000
+ANIM_rotate_key -1.00000 0.200000
+ANIM_rotate_key 0.000000 0.000000
+ANIM_rotate_key 1.00000 -0.200000
+ANIM_rotate_key 2.000000 -0.40000
+ANIM_rotate_end
+ANIM_rotate_begin 0.000000 -0.011500 0.999934 sim/flightmodel2/wing/wing_tip_deflection_deg[0]
+ANIM_rotate_key -10.000000  1.500000
+ANIM_rotate_key -8.000000  1.500000
+ANIM_rotate_key -5.000000 0.000000
+ANIM_rotate_key -0.500000  -4.000000
+ANIM_rotate_key 5.000000  -4.500000
+ANIM_rotate_key 10.000000  -4.500000
+ANIM_rotate_end
+
+EngRPress
+
+
+ANIM_rotate_begin -1.000000 0.000000 0.000000 anim/EngRPress
+ANIM_rotate_key -5.000000 3.000000
+ANIM_rotate_key 0.000000 0.000000
+ANIM_rotate_key 5.000000 -3.000000
+ANIM_rotate_end
